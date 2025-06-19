@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5th Grade Vocabulary Quiz</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #e8f4fd;
+        }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            margin: 20px;
+            border: 3px solid #4a90e2;
+        }
+
+        h1 {
+            color: #2c5aa0;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .score {
+            font-size: 1.5em;
+            color: #2c5aa0;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .question-section {
+            margin: 30px 0;
+        }
+
+        .question {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .definition {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 30px;
+            font-style: italic;
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #4a90e2;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .option {
+            background: linear-gradient(145deg, #f0f8ff, #e1f0ff);
+            border: 2px solid #4a90e2;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .option:hover {
+            background: linear-gradient(145deg, #d4edda, #c3e6cb);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        .option.selected {
+            background: linear-gradient(145deg, #4a90e2, #357abd);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .submit-btn {
+            background: linear-gradient(145deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(145deg, #218838, #1e7e34);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        .next-btn {
+            background: linear-gradient(145deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .next-btn:hover {
+            background: linear-gradient(145deg, #0056b3, #004085);
+            transform: translateY(-2px);
+        }
+
+        .feedback {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .feedback.correct {
+            background: linear-gradient(145deg, #d4edda, #c3e6cb);
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+
+        .feedback.incorrect {
+            background: linear-gradient(145deg, #f8d7da, #f1b0b7);
+            color: #721c24;
+            border: 2px solid #dc3545;
+        }
+
+        .feedback-image {
+            max-width: 200px;
+            height: auto;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .final-score {
+            font-size: 2em;
+            color: #2c5aa0;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .restart-btn {
+            background: linear-gradient(145deg, #6f42c1, #5a32a3);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3);
+        }
+
+        .restart-btn:hover {
+            background: linear-gradient(145deg, #5a32a3, #4c2a85);
+            transform: translateY(-2px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 2px solid #4a90e2;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #4a90e2, #357abd);
+            transition: width 0.5s ease;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>🌟 5th Grade Vocabulary Quiz 🌟</h1>
+        <p class="subtitle">Test your vocabulary skills!</p>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <div class="score" id="score">Score: 0/10</div>
+        
+        <div id="quiz-content">
+            <div class="question-section">
+                <div class="question" id="question">Question will appear here</div>
+                <div class="definition" id="definition">Definition will appear here</div>
+                <div class="options" id="options"></div>
+                <button class="submit-btn" id="submit-btn" onclick="checkAnswer()">Submit Answer</button>
+            </div>
+        </div>
+        
+        <div id="feedback" class="feedback" style="display: none;"></div>
+        
+        <div id="final-screen" style="display: none;">
+            <div class="final-score" id="final-score"></div>
+            <button class="restart-btn" onclick="startQuiz()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        const vocabularyWords = [
+            {
+                word: "abundant",
+                definition: "Having a very large quantity of something; plentiful",
+                options: ["abundant", "scarce", "difficult", "simple"]
+            },
+            {
+                word: "compassion",
+                definition: "A feeling of deep sympathy and concern for someone who is suffering",
+                options: ["anger", "compassion", "confusion", "excitement"]
+            },
+            {
+                word: "diligent",
+                definition: "Showing careful and persistent effort in work or duties",
+                options: ["lazy", "diligent", "careless", "mean"]
+            },
+            {
+                word: "elaborate",
+                definition: "Detailed and complicated in design; having many parts",
+                options: ["simple", "broken", "elaborate", "small"]
+            },
+            {
+                word: "feasible",
+                definition: "Possible to do easily or conveniently; achievable",
+                options: ["impossible", "feasible", "dangerous", "expensive"]
+            },
+            {
+                word: "genuine",
+                definition: "Real, authentic, and sincere; not fake or pretended",
+                options: ["fake", "genuine", "broken", "old"]
+            },
+            {
+                word: "harsh",
+                definition: "Unpleasantly rough, severe, or demanding",
+                options: ["gentle", "kind", "harsh", "soft"]
+            },
+            {
+                word: "immense",
+                definition: "Extremely large or great in size, extent, or intensity",
+                options: ["tiny", "immense", "medium", "normal"]
+            },
+            {
+                word: "jovial",
+                definition: "Cheerful and friendly; full of happiness and good humor",
+                options: ["sad", "angry", "jovial", "tired"]
+            },
+            {
+                word: "keen",
+                definition: "Having a sharp mind or showing great interest and enthusiasm",
+                options: ["dull", "keen", "bored", "sleepy"]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+        let quizQuestions = [];
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function startQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedAnswer = null;
+            quizQuestions = shuffleArray(vocabularyWords);
+            
+            document.getElementById('quiz-content').style.display = 'block';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('final-screen').style.display = 'none';
+            
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestion >= quizQuestions.length) {
+                showFinalScore();
+                return;
+            }
+
+            const question = quizQuestions[currentQuestion];
+            selectedAnswer = null;
+            
+            document.getElementById('question').textContent = `Question ${currentQuestion + 1}: What word matches this definition?`;
+            document.getElementById('definition').textContent = question.definition;
+            
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.onclick = () => selectOption(optionElement, option);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            document.getElementById('submit-btn').textContent = 'Submit Answer';
+            document.getElementById('submit-btn').onclick = checkAnswer;
+            document.getElementById('feedback').style.display = 'none';
+            
+            updateProgress();
+            updateScore();
+        }
+
+        function selectOption(element, option) {
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedAnswer = option;
+        }
+
+        function checkAnswer() {
+            if (!selectedAnswer) {
+                alert('Please select an answer!');
+                return;
+            }
+
+            const question = quizQuestions[currentQuestion];
+            const isCorrect = selectedAnswer === question.word;
+            
+            if (isCorrect) {
+                score++;
+            }
+            
+            showFeedback(isCorrect, question.word);
+            updateScore();
+        }
+
+        function showFeedback(isCorrect, correctAnswer) {
+            const feedbackElement = document.getElementById('feedback');
+            feedbackElement.style.display = 'block';
+            
+            if (isCorrect) {
+                feedbackElement.className = 'feedback correct';
+                feedbackElement.innerHTML = `
+                    <div>🎉 Excellent! That's correct! 🎉</div>
+                    <img src="correct.png" alt="Correct" class="feedback-image" onerror="this.style.display='none'">
+                    <div>The answer is: <strong>${correctAnswer}</strong></div>
+                `;
+            } else {
+                feedbackElement.className = 'feedback incorrect';
+                feedbackElement.innerHTML = `
+                    <div>❌ Not quite right. Try again next time! ❌</div>
+                    <img src="incorrect.png" alt="Incorrect" class="feedback-image" onerror="this.style.display='none'">
+                    <div>The correct answer is: <strong>${correctAnswer}</strong></div>
+                `;
+            }
+            
+            document.getElementById('submit-btn').textContent = 'Next Question';
+            document.getElementById('submit-btn').onclick = nextQuestion;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            showQuestion();
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion) / quizQuestions.length) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = `Score: ${score}/${quizQuestions.length}`;
+        }
+
+        function showFinalScore() {
+            document.getElementById('quiz-content').style.display = 'none';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('final-screen').style.display = 'block';
+            
+            const percentage = Math.round((score / quizQuestions.length) * 100);
+            let message = '';
+            
+            if (percentage >= 90) {
+                message = `🏆 Outstanding! ${score}/${quizQuestions.length} (${percentage}%) 🏆`;
+            } else if (percentage >= 80) {
+                message = `🌟 Great job! ${score}/${quizQuestions.length} (${percentage}%) 🌟`;
+            } else if (percentage >= 70) {
+                message = `👍 Good work! ${score}/${quizQuestions.length} (${percentage}%) 👍`;
+            } else if (percentage >= 60) {
+                message = `📚 Keep practicing! ${score}/${quizQuestions.length} (${percentage}%) 📚`;
+            } else {
+                message = `💪 Don't give up! ${score}/${quizQuestions.length} (${percentage}%) 💪`;
+            }
+            
+            document.getElementById('final-score').innerHTML = message;
+            document.getElementById('progress').style.width = '100%';
+        }
+
+        // Start the quiz when page loads
+        window.onload = startQuiz;
+    </script>
+</body>
+</html>
